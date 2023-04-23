@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import AppText from "../components/AppText";
@@ -25,6 +26,10 @@ function HomeScreen({ navigation }) {
   // eslint-disable-next-line no-unused-vars
   const [quizTimerDone, setQuizTimerDone] = useState(false);
   var quizTimer = Number(nextQuiz);
+  const updateDate = {
+    user: user,
+    public_address: user.public_address,
+  };
 
   const getUserView = async () => {
     return await fetch("https://nasaft-tbact528.b4a.run/api/users", {
@@ -46,7 +51,7 @@ function HomeScreen({ navigation }) {
       .catch((error) => console.log("error", error));
   };
   const getNEO = async () => {
-    const testTime = await cache.get("neoTimeStamp");
+    const testTime = user.current_Neo_Timestamp;
     return await fetch("https://nasaft-tbact528.b4a.run/api/neo", {
       method: "GET",
       headers: {
@@ -63,7 +68,7 @@ function HomeScreen({ navigation }) {
       .then((data) => {
         if (testTime != data.neo.dateUTC) {
           console.log("NEW NEO ACQUIRED");
-          newNFTSetup();
+          newNFTSetup(data.neo.dateUTC);
           setNeoTime(data.neo.dateUTC);
           cache.store("neoTimeStamp", data.neo.dateUTC);
           return data.neo.dateUTC;
@@ -71,6 +76,19 @@ function HomeScreen({ navigation }) {
         setNeoTime(data.neo.dateUTC);
         return data.neo.dateUTC;
       })
+      .catch((error) => console.log("error", error));
+  };
+
+  const updateUserDB = async () => {
+    return await fetch("https://nasaft-tbact528.b4a.run/api/users/", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": token,
+      },
+      body: JSON.stringify(updateDate),
+    })
+      .then((response) => response.json())
       .catch((error) => console.log("error", error));
   };
 
@@ -113,19 +131,14 @@ function HomeScreen({ navigation }) {
         storedDay = splitDate[1];
       }
     }
-    console.log(storedYear);
-    console.log(storedMonth);
-    console.log(storedDay);
     if (splitDate != undefined) {
       if (today.getFullYear() > storedYear) {
         // its a new year from when they last played
-        console.log("new year");
         setReady(true);
       } else if (parseInt(today.getMonth() + 1) > storedMonth) {
         // its next month from the last time they played
         setReady(true);
       } else if (parseInt(today.getDate()) > storedDay) {
-        console.log("new day");
         // its the next day from the last time they played
         setReady(true);
       } else {
@@ -138,6 +151,7 @@ function HomeScreen({ navigation }) {
 
   const newNFTSetup = () => {
     const winner = user.winner;
+    console.log("nft setup");
     if (winner) {
       setUser({
         ...user,
@@ -146,12 +160,14 @@ function HomeScreen({ navigation }) {
         current_quiz_score: 0,
         current_score: 0,
         winner: false,
+        current_Neo_Timestamp: neoTime,
       });
     } else {
       setUser({
         ...user,
         current_quiz_score: 0,
         current_score: 0,
+        current_Neo_Timestamp: neoTime,
       });
     }
   };
@@ -160,6 +176,12 @@ function HomeScreen({ navigation }) {
     getTilMidnight();
     quizReady();
   };
+
+  useEffect(() => {
+    updateUserDB();
+    console.log("user db update");
+    console.log(user);
+  }, [user, neoTime]);
 
   useEffect(() => {
     getNEO();
