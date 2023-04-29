@@ -1,9 +1,10 @@
-import { Image, StyleSheet, View } from "react-native";
+import { Image, Linking, StyleSheet, View } from "react-native";
 import AppText from "./AppText";
 import PropTypes from "prop-types";
 import React from "react";
+import { TouchableHighlight } from "react-native-gesture-handler";
 
-function NeoDetailLines({ distance, id, size, url, velocity }) {
+function NeoDetailLines({ distance, id, image, size, url, velocity }) {
   return (
     <View style={styles.dataLine}>
       <View style={styles.attributesStyle}>
@@ -13,13 +14,15 @@ function NeoDetailLines({ distance, id, size, url, velocity }) {
         <AppText>Distance: {distance}</AppText>
       </View>
       <View style={styles.dataValue}>
-        <Image
-          source={{
-            width: 150,
-            height: 150,
-            uri: url,
-          }}
-        />
+        <TouchableHighlight onPress={() => Linking.openURL(url)}>
+          <Image
+            source={{
+              width: 150,
+              height: 150,
+              uri: image,
+            }}
+          />
+        </TouchableHighlight>
       </View>
     </View>
   );
@@ -28,6 +31,7 @@ function NeoDetailLines({ distance, id, size, url, velocity }) {
 NeoDetailLines.propTypes = {
   distance: PropTypes.string,
   id: PropTypes.string,
+  image: PropTypes.string,
   size: PropTypes.string,
   url: PropTypes.string,
   velocity: PropTypes.string,

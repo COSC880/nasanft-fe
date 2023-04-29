@@ -109,6 +109,7 @@ export default function WalletConnectExperience({ navigation }) {
       })
       .catch((error) => {
         // Error returned when rejected
+        Alert.alert("Signature failed");
         console.log("Signature failed", error);
       });
   };
@@ -140,7 +141,7 @@ export default function WalletConnectExperience({ navigation }) {
           <DisplayAddress pubAddress={pubAddress} />
           <Button
             onPress={() => personalSign(connector.accounts[0], navigation)}
-            label="sign"
+            label="Sign"
           />
           <Button onPress={killSession} label="Log out" />
         </>

@@ -151,7 +151,6 @@ function HomeScreen({ navigation }) {
 
   const newNFTSetup = () => {
     const winner = user.winner;
-    console.log("nft setup");
     if (winner) {
       setUser({
         ...user,
@@ -179,8 +178,6 @@ function HomeScreen({ navigation }) {
 
   useEffect(() => {
     updateUserDB();
-    console.log("user db update");
-    console.log(user);
   }, [user, neoTime]);
 
   useEffect(() => {
