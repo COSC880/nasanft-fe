@@ -49,6 +49,7 @@ function UserDetailScreen({ navigation }) {
   const [loading, setLoading] = useState(true);
   const [attributes, setAttributes] = useState([]);
   const [neoID, setneoID] = useState([]);
+  const [contractAddress, setContractAddress] = useState([]);
   const name = user.user_name + "'s Details";
 
   const connector = useWalletConnect();
@@ -118,7 +119,9 @@ function UserDetailScreen({ navigation }) {
           });
         }
       })
-      .catch((error) => console.log("error", error));
+      .catch((error) => {
+        Alert.alert("Error saving data. Try again later.", error);
+      });
   };
 
   const killSession = useCallback(() => {
@@ -258,6 +261,7 @@ function UserDetailScreen({ navigation }) {
         console.log("Something went wrong.", data);
       })
       .catch((error) => {
+        Alert.alert("Unable to deleta user account. Try again later.");
         console.log("error deleting", error);
       });
   };
@@ -369,6 +373,7 @@ function UserDetailScreen({ navigation }) {
         setOwnedNFTs([]);
         setNftImages([]);
         setneoID([]);
+        setContractAddress([]);
         if (data.ownedNfts.length == 0) {
           console.log("none");
           setLengthOwned(-1);
@@ -390,6 +395,16 @@ function UserDetailScreen({ navigation }) {
               ...ownedNFTs,
               data.ownedNfts[i].rawMetadata.id,
             ]);
+            // eslint-disable-next-line vars-on-top
+            var addressLink =
+              "https://testnets.opensea.io/assets/mumbai/" +
+              data.ownedNfts[i].contract.address +
+              "/" +
+              data.ownedNfts[i].rawMetadata.id;
+            setContractAddress((contractAddress) => [
+              ...contractAddress,
+              addressLink,
+            ]);
           }
           setLengthOwned(data.ownedNfts.length);
         }
@@ -407,7 +422,6 @@ function UserDetailScreen({ navigation }) {
       setVelocityRank("N/A");
       setDistanceRank("N/A");
     } else {
-      console.log("have rank data");
       oldRank = 11;
       // eslint-disable-next-line vars-on-top
       for (var i = 0; i < ownedNFTs.length; i++) {
@@ -475,7 +489,6 @@ function UserDetailScreen({ navigation }) {
       }
     }
     if (lengthOwned == -1) {
-      console.log("no nfts");
       setLoading(false);
     }
   }, [lengthOwned]);
@@ -570,7 +583,8 @@ function UserDetailScreen({ navigation }) {
                 size={attributes[0].size}
                 distance={attributes[0].range}
                 velocity={attributes[0].velocity}
-                url={nftImages[0]}
+                image={nftImages[0]}
+                url={contractAddress[0]}
               />
             ) : (
               <AppText></AppText>
@@ -581,7 +595,8 @@ function UserDetailScreen({ navigation }) {
                 size={attributes[1].size}
                 distance={attributes[1].range}
                 velocity={attributes[1].velocity}
-                url={nftImages[1]}
+                image={nftImages[1]}
+                url={contractAddress[1]}
               />
             ) : (
               <AppText></AppText>
@@ -592,7 +607,8 @@ function UserDetailScreen({ navigation }) {
                 size={attributes[2].size}
                 distance={attributes[2].range}
                 velocity={attributes[2].velocity}
-                url={nftImages[3]}
+                image={nftImages[2]}
+                url={contractAddress[2]}
               />
             ) : (
               <AppText></AppText>

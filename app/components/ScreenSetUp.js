@@ -7,7 +7,7 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../auth/context";
 import Constants from "expo-constants";
 import PropTypes from "prop-types";
@@ -18,21 +18,37 @@ function ScreenSetUp({ children, style }) {
   const windowDimensions = Dimensions.get("window");
   const height = windowDimensions.height;
   const width = windowDimensions.width;
+  const [loading, setLoading] = useState(true);
 
-  return (
+  useEffect(() => {
+    if (iotd == null) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [iotd]);
+
+  return loading ? (
     <SafeAreaView style={[styles.screen, style]}>
       <ImageBackground
         style={styles.background}
-        source={{
-          width: width,
-          height: height,
-          uri: iotd,
-        }}
-        defaultSource={require("../assets/PIA13110_large.jpg")}
+        source={require("../assets/PIA13110_large.jpg")}
       >
         <View style={[styles.view, style]}>{children}</View>
       </ImageBackground>
     </SafeAreaView>
+  ) : (
+    <ImageBackground
+      style={styles.background}
+      source={{
+        width: width,
+        height: height,
+        uri: iotd,
+      }}
+      defaultSource={require("../assets/PIA13110_large.jpg")}
+    >
+      <View style={[styles.view, style]}>{children}</View>
+    </ImageBackground>
   );
 }
 
