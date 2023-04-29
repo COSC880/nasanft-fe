@@ -52,6 +52,7 @@ function HomeScreen({ navigation }) {
   };
   const getNEO = async () => {
     const testTime = user.current_Neo_Timestamp;
+    console.log(testTime);
     return await fetch("https://nasaft-tbact528.b4a.run/api/neo", {
       method: "GET",
       headers: {
@@ -66,10 +67,11 @@ function HomeScreen({ navigation }) {
         return Promise.reject(response);
       })
       .then((data) => {
+        console.log(data.neo.dateUTC);
         if (testTime != data.neo.dateUTC) {
           console.log("NEW NEO ACQUIRED");
-          newNFTSetup(data.neo.dateUTC);
           setNeoTime(data.neo.dateUTC);
+          newNFTSetup(data.neo.dateUTC);
           cache.store("neoTimeStamp", data.neo.dateUTC);
           return data.neo.dateUTC;
         }
@@ -159,16 +161,21 @@ function HomeScreen({ navigation }) {
         current_quiz_score: 0,
         current_score: 0,
         winner: false,
-        current_Neo_Timestamp: neoTime,
       });
     } else {
       setUser({
         ...user,
         current_quiz_score: 0,
         current_score: 0,
-        current_Neo_Timestamp: neoTime,
       });
     }
+  };
+
+  const neoTimeUserUpdate = () => {
+    setUser({
+      ...user,
+      current_Neo_Timestamp: neoTime,
+    });
   };
 
   const handleQuizTimerDone = () => {
@@ -178,7 +185,11 @@ function HomeScreen({ navigation }) {
 
   useEffect(() => {
     updateUserDB();
-  }, [user, neoTime]);
+  }, [user]);
+
+  useEffect(() => {
+    neoTimeUserUpdate();
+  }, [neoTime]);
 
   useEffect(() => {
     getNEO();
