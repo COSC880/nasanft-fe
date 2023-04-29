@@ -3,6 +3,7 @@ import AppText from "./AppText";
 import PropTypes from "prop-types";
 import React from "react";
 
+// eslint-disable-next-line react/prop-types
 function DetailLines({ data, title }) {
   return (
     <View style={styles.dataLine}>
@@ -15,7 +16,6 @@ function DetailLines({ data, title }) {
 }
 
 DetailLines.propTypes = {
-  data: PropTypes.number,
   title: PropTypes.string,
 };
 

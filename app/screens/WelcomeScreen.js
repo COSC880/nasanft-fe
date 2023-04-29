@@ -30,14 +30,11 @@ function WelcomeScreen({ navigation }) {
       })
       .then((data) => {
         if (
-          data != undefined &&
+          data.text != undefined &&
           data.text.localeCompare("Image of the day is not set") == 0
         ) {
           setIOTD(null);
-        } else if (
-          data != undefined &&
-          data.text.localeCompare("Image of the day is not set") == 1
-        ) {
+        } else if (data != undefined) {
           console.log("storing image");
           cache.store("iotd", data.hdurl);
           setIOTD(data.hdurl);
