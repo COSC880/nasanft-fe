@@ -9,6 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import AuthContext from "./app/auth/context";
 import AuthNavigator from "./app/navigation/AuthNavigator";
 import { NavigationContainer } from "@react-navigation/native";
+import { StatusBar } from "expo-status-bar";
 import WalletConnectProvider from "@walletconnect/react-native-dapp";
 import navigationTheme from "./app/navigation/navigationTheme";
 import { useFonts } from "expo-font";
