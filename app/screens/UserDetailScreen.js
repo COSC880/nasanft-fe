@@ -369,6 +369,8 @@ function UserDetailScreen({ navigation }) {
         return Promise.reject(response);
       })
       .then((data) => {
+        console.log("owned data");
+        console.log(data);
         setAttributes([]);
         setOwnedNFTs([]);
         setNftImages([]);
@@ -426,6 +428,7 @@ function UserDetailScreen({ navigation }) {
       // eslint-disable-next-line vars-on-top
       for (var i = 0; i < ownedNFTs.length; i++) {
         if (sizeArray.includes(ownedNFTs[i])) {
+          console.log("Found a size match");
           newRank = sizeArray.indexOf(ownedNFTs[i]);
           if (newRank < oldRank) {
             oldRank = newRank;
