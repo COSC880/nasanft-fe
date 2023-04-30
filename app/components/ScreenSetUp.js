@@ -38,17 +38,19 @@ function ScreenSetUp({ children, style }) {
       </ImageBackground>
     </SafeAreaView>
   ) : (
-    <ImageBackground
-      style={styles.background}
-      source={{
-        width: width,
-        height: height,
-        uri: iotd,
-      }}
-      defaultSource={require("../assets/PIA13110_large.jpg")}
-    >
-      <View style={[styles.view, style]}>{children}</View>
-    </ImageBackground>
+    <SafeAreaView style={[styles.screen, style]}>
+      <ImageBackground
+        style={styles.background}
+        source={{
+          width: width,
+          height: height,
+          uri: iotd,
+        }}
+        defaultSource={require("../assets/PIA13110_large.jpg")}
+      >
+        <View style={[styles.view, style]}>{children}</View>
+      </ImageBackground>
+    </SafeAreaView>
   );
 }
 
