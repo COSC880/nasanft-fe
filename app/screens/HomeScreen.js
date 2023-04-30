@@ -46,6 +46,8 @@ function HomeScreen({ navigation }) {
         return Promise.reject(response);
       })
       .then((data) => {
+        console.log("ranking");
+        console.log(data);
         setRank(data.overall_rank);
       })
       .catch((error) => console.log("error", error));
