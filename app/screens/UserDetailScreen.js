@@ -41,9 +41,9 @@ function UserDetailScreen({ navigation }) {
   const [velocityArray, setVelocityArray] = useState([]);
   const [distanceArray, setDistanceArray] = useState([]);
   const [ownedNFTs, setOwnedNFTs] = useState([]);
-  const [velocityRank, setVelocityRank] = useState(0);
-  const [distanceRank, setDistanceRank] = useState(0);
-  const [sizeRank, setSizeRank] = useState(0);
+  const [velocityRank, setVelocityRank] = useState("N/A");
+  const [distanceRank, setDistanceRank] = useState("N/A");
+  const [sizeRank, setSizeRank] = useState("N/A");
   const [nftImages, setNftImages] = useState([]);
   const [lengthOwned, setLengthOwned] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -253,15 +253,15 @@ function UserDetailScreen({ navigation }) {
         if (response.ok) {
           logout();
           navigation.navigate("WelcomeScreen");
-          return response.json();
+          return response[response.status === 204 ? "text" : "json"]();
         }
         return response.json();
       })
       .then((data) => {
-        console.log("Something went wrong.", data);
+        console.log(data);
       })
       .catch((error) => {
-        Alert.alert("Unable to deleta user account. Try again later.");
+        Alert.alert("Unable to deleta user account. Try again later." + data);
         console.log("error deleting", error);
       });
   };
@@ -369,15 +369,12 @@ function UserDetailScreen({ navigation }) {
         return Promise.reject(response);
       })
       .then((data) => {
-        console.log("owned data");
-        console.log(data);
         setAttributes([]);
         setOwnedNFTs([]);
         setNftImages([]);
         setneoID([]);
         setContractAddress([]);
         if (data.ownedNfts.length == 0) {
-          console.log("none");
           setLengthOwned(-1);
         } else {
           const testLength = data.ownedNfts.length;
@@ -622,6 +619,7 @@ function UserDetailScreen({ navigation }) {
           <View style={styles.save}>
             <CustomButton
               borderColor="blue_text"
+              color="gold"
               title="Delete Account"
               onPress={() => verifyDelete()}
             />
@@ -645,13 +643,13 @@ function UserDetailScreen({ navigation }) {
             onPressIn={() => navigation.navigate("HelpScreen")}
           >
             <View>
-              <Feather name="help-circle" size={28} color={colors.blue_text} />
+              <Feather name="help-circle" size={38} color={colors.blue_text} />
             </View>
           </TouchableOpacity>
         </View>
         <View>
           {user.isAdmin ? (
-            <View style={styles.delete}>
+            <View style={styles.Admin}>
               <CustomButton
                 borderColor="blue_text"
                 color="red"
@@ -673,18 +671,18 @@ UserDetailScreen.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  backArrow: {
-    borderRadius: 80,
-    position: "absolute",
-    right: "90%",
-    top: 50,
-  },
-  delete: {
+  Admin: {
     alignSelf: "center",
     height: 70,
     justifyContent: "flex-end",
     marginVertical: 10,
     width: "50%",
+  },
+  backArrow: {
+    borderRadius: 80,
+    position: "absolute",
+    right: "90%",
+    top: 50,
   },
   deleteBox: {
     marginBottom: 10,

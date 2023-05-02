@@ -17,6 +17,8 @@ import colors from "../config/colors";
 import { useFocusEffect } from "@react-navigation/native";
 
 function HomeScreen({ navigation }) {
+  var quizLabel = "      hr   :   min  :   sec";
+  var neoLabel = "  Day   :    hr    :   min";
   const { user, setUser, token, neoTime, setNeoTime, setRank } =
     useContext(AuthContext);
   const [duration, setDuration] = useState(-1);
@@ -46,15 +48,12 @@ function HomeScreen({ navigation }) {
         return Promise.reject(response);
       })
       .then((data) => {
-        console.log("ranking");
-        console.log(data);
         setRank(data.overall_rank);
       })
       .catch((error) => console.log("error", error));
   };
   const getNEO = async () => {
     const testTime = user.current_Neo_Timestamp;
-    console.log(testTime);
     return await fetch("https://nasaft-tbact528.b4a.run/api/neo", {
       method: "GET",
       headers: {
@@ -69,9 +68,7 @@ function HomeScreen({ navigation }) {
         return Promise.reject(response);
       })
       .then((data) => {
-        console.log(data.neo.dateUTC);
         if (testTime != data.neo.dateUTC) {
-          console.log("NEW NEO ACQUIRED");
           setNeoTime(data.neo.dateUTC);
           newNFTSetup(data.neo.dateUTC);
           cache.store("neoTimeStamp", data.neo.dateUTC);
@@ -238,22 +235,21 @@ function HomeScreen({ navigation }) {
       </View>
       <View style={styles.timerBox}>
         <AppText fontSize={22}>Time until next quiz</AppText>
-        <View style={{ flex: 1 }}>
-          <View style={styles.counter1}>
-            <Ionicons name="timer-outline" size={26} color={colors.blue_text} />
-            <CountDown
-              // TIMER FOR QUIZ
-              until={quizTimer}
-              size={30}
-              onFinish={() => handleQuizTimerDone()}
-              digitStyle={{ backgroundColor: "transparent" }}
-              digitTxtStyle={{ color: colors.blue_text }}
-              timeToShow={["H", "M", "S"]}
-              timeLabels={{}}
-              separatorStyle={{ color: colors.blue_text }}
-              showSeparator
-            />
-          </View>
+        <View style={styles.counter}>
+          <Ionicons name="timer-outline" size={26} color={colors.blue_text} />
+          <CountDown
+            // TIMER FOR QUIZ
+            until={quizTimer}
+            size={30}
+            onFinish={() => handleQuizTimerDone()}
+            digitStyle={{ backgroundColor: "transparent" }}
+            digitTxtStyle={{ color: colors.blue_text }}
+            timeToShow={["H", "M", "S"]}
+            timeLabels={{}}
+            separatorStyle={{ color: colors.blue_text }}
+            showSeparator
+          />
+          <AppText fontSize={22}>{quizLabel}</AppText>
         </View>
       </View>
       {!ready ? (
@@ -288,16 +284,7 @@ function HomeScreen({ navigation }) {
           />
         </View>
       )}
-      <View
-        style={{
-          alignItems: "center",
-          justifyContent: "flex-end",
-          borderWidth: 10,
-          borderColor: colors.buttonColor,
-          height: 150,
-          marginTop: 60,
-        }}
-      >
+      <View style={styles.timerBox1}>
         <AppText fontSize={20}>Time until next NFT is awarded</AppText>
         <View style={styles.counter}>
           <Ionicons name="timer-outline" size={22} color={colors.blue_text} />
@@ -314,6 +301,9 @@ function HomeScreen({ navigation }) {
             separatorStyle={{ color: colors.blue_text }}
             showSeparator
           />
+          <AppText style={styles.labels} fontSize={22}>
+            {neoLabel}
+          </AppText>
         </View>
       </View>
       <HelpButton navigation={navigation} />
@@ -338,14 +328,11 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "center",
   },
-  counter1: {
-    alignItems: "center",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-  },
   counterIcon: {
     alignSelf: "center",
+  },
+  label: {
+    width: "100%",
   },
   points: {
     alignItems: "center",
@@ -359,9 +346,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: colors.buttonColor,
     borderWidth: 10,
-    height: 150,
+    height: 170,
     marginBottom: 50,
-    paddingTop: 20,
+  },
+  timerBox1: {
+    alignItems: "center",
+    borderColor: colors.buttonColor,
+    borderWidth: 10,
+    height: 170,
+    marginTop: 60,
   },
   quizButton: {
     alignSelf: "center",

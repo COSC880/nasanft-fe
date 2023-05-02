@@ -9,7 +9,7 @@ function HelpButton({ navigation }) {
   return (
     <TouchableOpacity onPressIn={() => navigation.navigate("HelpScreen")}>
       <View style={styles.button}>
-        <Feather name="help-circle" size={28} color={colors.blue_text} />
+        <Feather name="help-circle" size={40} color={colors.blue_text} />
       </View>
     </TouchableOpacity>
   );

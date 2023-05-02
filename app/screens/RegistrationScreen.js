@@ -1,6 +1,14 @@
 /* eslint-disable no-undef */
 import "../global";
-import { Alert, Image, StyleSheet, TextInput, View } from "react-native";
+import {
+  Alert,
+  Image,
+  Keyboard,
+  StyleSheet,
+  TextInput,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import React, { useContext, useState } from "react";
 import AppText from "../components/AppText";
 import AuthContext from "../auth/context";
@@ -74,42 +82,48 @@ function RegistrationScreen({ navigation }) {
 
   return (
     <ScreenSetUp>
-      <GoBackHeader color="white" navigation={navigation}></GoBackHeader>
-
-      <View style={styles.container}>
-        <Image style={styles.logo} source={require("../assets/FullLogo.png")} />
-        <AppText color="white" fontSize={26}>
-          Register Account
-        </AppText>
-      </View>
-      <View style={{ flex: 0.5, top: 200 }}>
-        <View style={styles.userContainer}>
-          <AppText style={styles.displayName}> Display Name</AppText>
-          <TextInput
-            onChangeText={(text) => setNewName(text)}
-            placeholder=" Enter Display Name"
-            style={styles.usernameInput}
-          ></TextInput>
-        </View>
-        <View style={styles.touchableButton}>
-          <View>
-            <RegistrationConnect navigation={navigation} />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={{ flex: 1 }}>
+          <GoBackHeader color="white" navigation={navigation}></GoBackHeader>
+          <View style={styles.container}>
+            <Image
+              style={styles.logo}
+              source={require("../assets/FullLogo.png")}
+            />
+            <AppText color="white" fontSize={26}>
+              Register Account
+            </AppText>
           </View>
-          {!authContext.publicAddress ? (
-            <AppText></AppText>
-          ) : (
-            <View style={styles.registerButtonView}>
-              <CustomButton
-                fontFamily="Rag_Bo"
-                fontSize={18}
-                marginVertical={7}
-                onPress={() => registerAccount(userDetails)}
-                title="Register"
-              />
+          <View style={{ flex: 0.5, top: 200 }}>
+            <View style={styles.userContainer}>
+              <AppText style={styles.displayName}> Display Name</AppText>
+              <TextInput
+                onChangeText={(text) => setNewName(text)}
+                placeholder=" Enter Display Name"
+                style={styles.usernameInput}
+              ></TextInput>
             </View>
-          )}
+            <View style={styles.touchableButton}>
+              <View>
+                <RegistrationConnect navigation={navigation} />
+              </View>
+              {!authContext.publicAddress ? (
+                <AppText></AppText>
+              ) : (
+                <View style={styles.registerButtonView}>
+                  <CustomButton
+                    fontFamily="Rag_Bo"
+                    fontSize={18}
+                    marginVertical={7}
+                    onPress={() => registerAccount(userDetails)}
+                    title="Register"
+                  />
+                </View>
+              )}
+            </View>
+          </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </ScreenSetUp>
   );
 }
