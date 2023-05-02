@@ -1,5 +1,5 @@
+import { Keyboard, StyleSheet, Text, TouchableOpacity } from "react-native";
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import AuthContext from "../auth/context";
 import PropTypes from "prop-types";
 import colors from "../config/colors";
@@ -18,6 +18,7 @@ Button.propTypes = {
   label: PropTypes.string,
 };
 
+// eslint-disable-next-line react/prop-types
 function DisplayAddress({ pubAddress }) {
   if (pubAddress != null) {
     return <Text style={styles.resultText}>Public Address: {pubAddress}</Text>;
@@ -26,16 +27,13 @@ function DisplayAddress({ pubAddress }) {
   }
 }
 
-DisplayAddress.propTypes = {
-  pubAddress: PropTypes.object,
-};
-
 export default function RegistrationConnect() {
   const authContext = useContext(AuthContext);
   const [pubAddress, setPubAddress] = useState([]);
   const connector = useWalletConnect();
 
   const connectWallet = useCallback(() => {
+    Keyboard.dismiss();
     connector.connect();
   }, [connector]);
 

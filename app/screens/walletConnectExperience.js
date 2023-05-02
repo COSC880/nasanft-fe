@@ -108,8 +108,6 @@ export default function WalletConnectExperience({ navigation }) {
         }
       })
       .catch((error) => {
-        // Error returned when rejected
-        Alert.alert("Signature failed");
         console.log("Signature failed", error);
       });
   };
