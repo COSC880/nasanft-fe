@@ -24,7 +24,7 @@ const CONTENT = [
       " reaches zero everyone who has earned an NFT will recieve one.",
   },
   {
-    title: "How do I earn and NFT?",
+    title: "How do I earn a NFT?",
     content:
       "To earn the current NFT you must score at least 700 on a single quiz. You will have at least 2 quizzes per NFT.",
   },

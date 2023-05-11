@@ -504,7 +504,7 @@ function UserDetailScreen({ navigation }) {
   ) : (
     <ScreenSetUp style={{ backgroundColor: colors.white }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 10 }}>
-        <View style={{ height: "10%", paddingBottom: 100 }}>
+        <View style={{ height: "7%", paddingBottom: 100 }}>
           <TouchableOpacity onPressIn={() => navigation.goBack()}>
             <Ionicons
               name="arrow-back"

@@ -10,11 +10,31 @@ const Stack = createStackNavigator();
 
 const AppNavigator = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
-    <Stack.Screen name="HomeScreen" component={HomeScreen} />
-    <Stack.Screen name="HelpScreen" component={HelpScreen} />
-    <Stack.Screen name="QuizScreen" component={QuizScreen} />
-    <Stack.Screen name="UserDetailsScreen" component={UserDetailScreen} />
-    <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
+    <Stack.Screen
+      options={{ headerShown: false }}
+      name="HomeScreen"
+      component={HomeScreen}
+    />
+    <Stack.Screen
+      options={{ headerShown: false }}
+      name="HelpScreen"
+      component={HelpScreen}
+    />
+    <Stack.Screen
+      options={{ headerShown: false }}
+      name="QuizScreen"
+      component={QuizScreen}
+    />
+    <Stack.Screen
+      options={{ headerShown: false }}
+      name="UserDetailsScreen"
+      component={UserDetailScreen}
+    />
+    <Stack.Screen
+      options={{ headerShown: false }}
+      name="WelcomeScreen"
+      component={WelcomeScreen}
+    />
   </Stack.Navigator>
 );
 
