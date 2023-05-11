@@ -50,6 +50,12 @@ function UserDetailScreen({ navigation }) {
   const [attributes, setAttributes] = useState([]);
   const [neoID, setneoID] = useState([]);
   const [contractAddress, setContractAddress] = useState([]);
+
+  const [flippedAddress, setFlippedAddress] = useState([]);
+  const [flippedID, setFlippedID] = useState([]);
+  const [flippedAttributes, setFlippedAttributes] = useState([]);
+  const [flippedImage, setFlippedImage] = useState([]);
+
   const name = user.user_name + "'s Details";
 
   const connector = useWalletConnect();
@@ -381,6 +387,7 @@ function UserDetailScreen({ navigation }) {
 
           // eslint-disable-next-line vars-on-top
           for (var i = 0; i < testLength; i++) {
+            console.log(data.ownedNfts[i]);
             setAttributes((attributes) => [
               ...attributes,
               data.ownedNfts[i].rawMetadata.attributes,
@@ -406,10 +413,46 @@ function UserDetailScreen({ navigation }) {
             ]);
           }
           setLengthOwned(data.ownedNfts.length);
+          flipTheLists(data);
         }
         return data;
       })
       .catch((error) => console.log("error", error));
+  };
+
+  const flipTheLists = (data) => {
+    var ownedLength = data.ownedNfts.length;
+    console.log("in flip");
+
+    setFlippedAttributes([]);
+    setFlippedID([]);
+    setFlippedImage([]);
+    setFlippedAddress([]);
+
+    if (ownedLength > 3) {
+      // eslint-disable-next-line vars-on-top
+      for (var i = 1; i < 4; i++) {
+        setFlippedAttributes((flippedAttributes) => [
+          ...flippedAttributes,
+          data.ownedNfts[ownedLength - i].rawMetadata.attributes,
+        ]);
+        setFlippedID((flippedID) => [
+          ...flippedID,
+          data.ownedNfts[ownedLength - i].rawMetadata.id,
+        ]);
+        setFlippedImage((flippedImage) => [
+          ...flippedImage,
+          data.ownedNfts[ownedLength - i].media[0].thumbnail,
+        ]);
+        // eslint-disable-next-line vars-on-top
+        var addressLink =
+          "https://testnets.opensea.io/assets/mumbai/" +
+          data.ownedNfts[ownedLength - 1].contract.address +
+          "/" +
+          data.ownedNfts[ownedLength - 1].rawMetadata.id;
+        setFlippedAddress((flippedAddress) => [...flippedAddress, addressLink]);
+      }
+    }
   };
 
   const calculateRankings = () => {
@@ -425,7 +468,6 @@ function UserDetailScreen({ navigation }) {
       // eslint-disable-next-line vars-on-top
       for (var i = 0; i < ownedNFTs.length; i++) {
         if (sizeArray.includes(ownedNFTs[i])) {
-          console.log("Found a size match");
           newRank = sizeArray.indexOf(ownedNFTs[i]);
           if (newRank < oldRank) {
             oldRank = newRank;
@@ -577,26 +619,26 @@ function UserDetailScreen({ navigation }) {
             ) : (
               <AppText></AppText>
             )}
-            {lengthOwned > 0 && attributes.length > 0 ? (
+            {lengthOwned > 0 && flippedAttributes.length > 0 ? (
               <NeoDetailLines
-                id={neoID[0]}
-                size={attributes[0].size}
-                distance={attributes[0].range}
-                velocity={attributes[0].velocity}
-                image={nftImages[0]}
-                url={contractAddress[0]}
+                id={flippedID[0]}
+                size={flippedAttributes[0].size}
+                distance={flippedAttributes[0].range}
+                velocity={flippedAttributes[0].velocity}
+                image={flippedImage[0]}
+                url={flippedAddress[0]}
               />
             ) : (
               <AppText></AppText>
             )}
-            {lengthOwned > 1 && attributes.length > 1 ? (
+            {lengthOwned > 1 && flippedAttributes.length > 1 ? (
               <NeoDetailLines
-                id={neoID[1]}
-                size={attributes[1].size}
-                distance={attributes[1].range}
-                velocity={attributes[1].velocity}
-                image={nftImages[1]}
-                url={contractAddress[1]}
+                id={flippedID[1]}
+                size={flippedAttributes[1].size}
+                distance={flippedAttributes[1].range}
+                velocity={flippedAttributes[1].velocity}
+                image={flippedImage[1]}
+                url={flippedAddress[1]}
               />
             ) : (
               <AppText></AppText>
