@@ -91,7 +91,7 @@ function HelpScreen({ navigation }) {
             fontFamily="Rag_Bo"
             fontSize={24}
           >
-            Fequently Asked Questions
+            Frequently Asked Questions
           </AppText>
 
           <Accordion
