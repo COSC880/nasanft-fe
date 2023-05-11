@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import React, { useContext, useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import AppText from "../components/AppText";
 import AuthContext from "../auth/context";
 import CountDown from "react-native-countdown-component";
@@ -217,96 +217,98 @@ function HomeScreen({ navigation }) {
     <LoadingIndicator visible={true} />
   ) : (
     <ScreenSetUp style={{ backgroundColor: colors.white }}>
-      <UserIconBar navigation={navigation}></UserIconBar>
+      <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 300 }}>
+        <UserIconBar navigation={navigation}></UserIconBar>
 
-      <View style={styles.points}>
-        {!user ? (
-          <AppText></AppText>
-        ) : (
-          <>
-            <AppText color="blue_text" fontSize={18}>
-              Points earned this NEO
-            </AppText>
-            <AppText color="red" fontSize={26}>
-              {user.current_score}
-            </AppText>
-          </>
-        )}
-      </View>
-      <View style={styles.timerBox}>
-        <AppText fontSize={22}>Time until next quiz</AppText>
-        <View style={styles.counter}>
-          <Ionicons name="timer-outline" size={26} color={colors.blue_text} />
-          <CountDown
-            // TIMER FOR QUIZ
-            until={quizTimer}
-            size={30}
-            onFinish={() => handleQuizTimerDone()}
-            digitStyle={{ backgroundColor: "transparent" }}
-            digitTxtStyle={{ color: colors.blue_text }}
-            timeToShow={["H", "M", "S"]}
-            timeLabels={{}}
-            separatorStyle={{ color: colors.blue_text }}
-            showSeparator
-          />
-          <AppText fontSize={22}>{quizLabel}</AppText>
+        <View style={styles.points}>
+          {!user ? (
+            <AppText></AppText>
+          ) : (
+            <>
+              <AppText color="blue_text" fontSize={18}>
+                Points earned this NEO
+              </AppText>
+              <AppText color="red" fontSize={26}>
+                {user.current_score}
+              </AppText>
+            </>
+          )}
         </View>
-      </View>
-      {!ready ? (
-        <View>
-          <View
-            style={{
-              alignItems: "center",
-              height: 80,
-            }}
-          >
-            <AppText fontFamily="Rag_Bo" fontSize={22}>
-              Next quiz not availble yet!
-            </AppText>
+        <View style={styles.timerBox}>
+          <AppText fontSize={22}>Time until next quiz</AppText>
+          <View style={styles.counter}>
+            <Ionicons name="timer-outline" size={26} color={colors.blue_text} />
+            <CountDown
+              // TIMER FOR QUIZ
+              until={quizTimer}
+              size={30}
+              onFinish={() => handleQuizTimerDone()}
+              digitStyle={{ backgroundColor: "transparent" }}
+              digitTxtStyle={{ color: colors.blue_text }}
+              timeToShow={["H", "M", "S"]}
+              timeLabels={{}}
+              separatorStyle={{ color: colors.blue_text }}
+              showSeparator
+            />
+            <AppText fontSize={22}>{quizLabel}</AppText>
           </View>
-          <View style={{ height: 140 }}>
-            <LottieView
-              autoPlay
-              loop
-              // eslint-disable-next-line no-undef
-              source={require("../assets/animations/rocket.json")}
+        </View>
+        {!ready ? (
+          <View>
+            <View
+              style={{
+                alignItems: "center",
+                height: 60,
+              }}
+            >
+              <AppText fontFamily="Rag_Bo" fontSize={22}>
+                Next quiz not availble yet!
+              </AppText>
+            </View>
+            <View style={{ height: 100 }}>
+              <LottieView
+                autoPlay
+                loop
+                // eslint-disable-next-line no-undef
+                source={require("../assets/animations/rocket.json")}
+              />
+            </View>
+          </View>
+        ) : (
+          <View style={styles.quizButton}>
+            <CustomButton
+              title="Start Daily Quiz"
+              onPress={() => navigation.navigate("QuizScreen")}
+              fontSize={28}
+              fontFamily="Rag_Bo"
+              borderColor="blue_text"
             />
           </View>
+        )}
+        <View style={styles.timerBox1}>
+          <AppText fontSize={20}>Time until next NFT </AppText>
+          <View style={styles.counter}>
+            <Ionicons name="timer-outline" size={22} color={colors.blue_text} />
+            <CountDown
+              // TIMER FOR NFT
+              // has id prop to use to reset
+              until={Number(duration)}
+              size={30}
+              onFinish={() => getNEO()}
+              digitStyle={{ backgroundColor: "transparent" }}
+              digitTxtStyle={{ color: colors.blue_text }}
+              timeToShow={["D", "H", "M"]}
+              timeLabels={{}}
+              separatorStyle={{ color: colors.blue_text }}
+              showSeparator
+            />
+            <AppText style={styles.labels} fontSize={22}>
+              {neoLabel}
+            </AppText>
+          </View>
         </View>
-      ) : (
-        <View style={styles.quizButton}>
-          <CustomButton
-            title="Start Daily Quiz"
-            onPress={() => navigation.navigate("QuizScreen")}
-            fontSize={28}
-            fontFamily="Rag_Bo"
-            borderColor="blue_text"
-          />
-        </View>
-      )}
-      <View style={styles.timerBox1}>
-        <AppText fontSize={20}>Time until next NFT is awarded</AppText>
-        <View style={styles.counter}>
-          <Ionicons name="timer-outline" size={22} color={colors.blue_text} />
-          <CountDown
-            // TIMER FOR NFT
-            // has id prop to use to reset
-            until={Number(duration)}
-            size={30}
-            onFinish={() => getNEO()}
-            digitStyle={{ backgroundColor: "transparent" }}
-            digitTxtStyle={{ color: colors.blue_text }}
-            timeToShow={["D", "H", "M"]}
-            timeLabels={{}}
-            separatorStyle={{ color: colors.blue_text }}
-            showSeparator
-          />
-          <AppText style={styles.labels} fontSize={22}>
-            {neoLabel}
-          </AppText>
-        </View>
-      </View>
-      <HelpButton navigation={navigation} />
+        <HelpButton navigation={navigation} />
+      </ScrollView>
     </ScreenSetUp>
   );
 }
@@ -347,14 +349,14 @@ const styles = StyleSheet.create({
     borderColor: colors.buttonColor,
     borderWidth: 10,
     height: 170,
-    marginBottom: 50,
+    marginBottom: 10,
   },
   timerBox1: {
     alignItems: "center",
     borderColor: colors.buttonColor,
     borderWidth: 10,
     height: 170,
-    marginTop: 60,
+    marginTop: 50,
   },
   quizButton: {
     alignSelf: "center",

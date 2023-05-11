@@ -55,8 +55,14 @@ function QuizScreen({ navigation }) {
         "x-auth-token": token,
       },
     })
-      .then((response) => response.json())
+      .then((response) => {
+        console.log("response");
+        console.log(response.statusText);
+        return response.json();
+      })
       .then((data) => {
+        console.log("quiz");
+        console.log(data);
         if (
           data.text != undefined &&
           data.text.localeCompare("jwt expired") == 0

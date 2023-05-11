@@ -17,8 +17,8 @@ function NeoDetailLines({ distance, id, image, size, url, velocity }) {
         <TouchableHighlight onPress={() => Linking.openURL(url)}>
           <Image
             source={{
-              width: 150,
-              height: 150,
+              width: 130,
+              height: 130,
               uri: image,
             }}
           />
