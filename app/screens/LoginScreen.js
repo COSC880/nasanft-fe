@@ -45,15 +45,15 @@ const styles = StyleSheet.create({
     borderColor: colors.white,
     borderRadius: 100,
     borderWidth: 5,
-    height: 200,
-    width: 200,
+    height: 150,
+    width: 150,
   },
   logoBox: {
     flex: 1,
     alignSelf: "center",
     alignItems: "center",
     justifyContent: "flex-start",
-    top: 100,
+    top: 80,
     width: "100%",
   },
   touchable: {
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   touchableButton: {
     flex: 1,
     justifyContent: "flex-end",
-    marginVertical: 20,
+    marginVertical: 15,
     width: "100%",
   },
 });

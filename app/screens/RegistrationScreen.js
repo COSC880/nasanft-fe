@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   userContainer: {
     alignItems: "center",
     flexDirection: "row",
-    paddingBottom: 30,
+    paddingBottom: 15,
     paddingLeft: 20,
     paddingRight: 30,
   },
