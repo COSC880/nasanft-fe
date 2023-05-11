@@ -94,7 +94,7 @@ function RegistrationScreen({ navigation }) {
               Register Account
             </AppText>
           </View>
-          <View style={{ flex: 0.5, top: 200 }}>
+          <View style={{ flex: 0.5, top: 180 }}>
             <View style={styles.userContainer}>
               <AppText style={styles.displayName}> Display Name</AppText>
               <TextInput
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     flex: 1,
     position: "absolute",
-    top: 70,
+    top: 60,
   },
   displayName: {
     backgroundColor: colors.white,
